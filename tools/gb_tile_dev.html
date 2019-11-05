@@ -1,0 +1,104 @@
+<html>
+<head>
+<style>
+
+
+
+</style>
+<script src="lib/d3/d3.js"></script>
+</head>
+<body>
+    <img onload="gogogo()" id="tiles" src="tiles.png" width="80" height="16" />
+    <div id="edge" style="border:solid; border-width: 1px;"></div>
+</body>
+
+
+        
+<script>
+
+  
+    var W = 20
+    var H = 20
+    var CHO = 8
+    var img
+    var offset_x = 50
+    var offset_y = 50   
+    var cs
+    var l
+    var tile_index=0
+    var max_tiles = 5
+
+    function gogogo() {
+
+        var edge = document.getElementById('edge')
+        edge.style.border = 'solid'
+        edge.style.borderWidth = '1px'
+        edge.style.position = 'absolute'
+        edge.style.width = W * CHO+3
+        edge.style.height = H * CHO+3
+        edge.style.top = offset_y-2
+        edge.style.left = offset_x-2
+        
+        d3.select('#tiles').on('mouseup', function() { console.log(tile_index); tile_index++; if (tile_index==max_tiles) tile_index=0; })
+      
+
+        //var canvas = document.getElementById("myCanvas");
+        //var ctx = canvas.getContext("2d");
+        img = document.getElementById("tiles");
+        
+
+
+        l = []
+        for (var x=0;x<W;x++) {
+            for (var y=0;y<H;y++) {
+                l.push({"x":x,"y":y, "value":0})
+            }
+        }
+
+
+        cs = d3.select('body').selectAll('.cell').data(l).enter()
+        cs
+            .append('canvas')
+            .attr('class','cell')
+            .attr('width','8px')
+            .attr('height','8px')
+            .style('position','absolute')
+            .style('top',function(d) { return `${ offset_y + CHO*d.y}px`})
+            .style('left',function(d) { return `${ offset_x + CHO*d.x}px`})
+            //.style('border','solid')
+            //.style('border-width','1px')
+            .on('mousedown', function(d,i) {
+                //disbale dragg
+                d3.event.preventDefault ? d3.event.preventDefault() : d3.event.returnValue = false
+                d.value=tile_index
+                if (d3.event.buttons==1) update(d3.select(this), d)
+            })
+            .on('mouseenter', function(d,i) {
+                //console.log("mounse enter", d3.event)
+                if (d3.event.buttons==1) {
+                    d.value=tile_index
+                    update(d3.select(this), d)
+                }
+            })
+
+
+    
+    }
+
+
+
+    function update(element, object) {
+        var ctx = element.node().getContext("2d")
+        ctx.drawImage(img, tile_index*8,0,8,8,0, 0,8,8);
+        //return
+        //if (object.value==1) {
+        //    element.style('background-color','black')
+        //}else {
+        //    element.style('background-color','white')        
+        //}   
+    }
+
+</script>
+
+
+</html>

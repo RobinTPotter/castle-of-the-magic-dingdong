@@ -1,10 +1,10 @@
 #include <gb/gb.h>
-#include "map3.c"
-#include "tiles3.c"
+#include "map40.c"
+#include "tiles40.c"
 
 void main(){
-    set_bkg_data(0, 3, tiles);
-    set_bkg_tiles(0, 0, 120, 120, map);
+    set_bkg_data(0, 5, tiles);
+    set_bkg_tiles(0, 0, 40, 40, map_part_1);
 
     SHOW_BKG;
     DISPLAY_ON;
