@@ -7,7 +7,6 @@
         var SH = 8
         var SCHO = 8
 
-
         var sprite_list_canvas
         var map_offset_x 
         var map_offset_y   
@@ -26,7 +25,7 @@
         var  current_map = []
         var  current_sprites = []
 
-        var sprite
+        var current_sprite_index
 
         var map_edge_selection
         var sprite_edge_selection
@@ -42,12 +41,11 @@
         }
 
         function add_new_sprite() {
-            new_spr = create_blank_sprite()
+            var new_spr = create_blank_sprite()
             current_sprites.push(new_spr)
-            console.log(current_sprites)
-            sprite = new_spr
+            console.log("added new",current_sprites)
+            sprite = current_sprites[current_sprites.length-1]
         }
-
 
         function update_map(element, object) {
             var ctx = element.node().getContext("2d")
@@ -55,21 +53,18 @@
         }
 
         function update_sprite(element, object) {
-            console.log(element.node(), object)
+            //console.log(element.node(), object)
             var ctx = element.node().getContext("2d")
             ctx.drawImage(colour_list_canvas, colour_index*8,0,8,8,0, 0,8,8);
         }
 
-
         function update_sprite_canvases() {
             //console.log(sprite)
-  
-                //.style('border','solid')
-                //.style('border-width','1px')
-          
+            //.style('border','solid')
+            //.style('border-width','1px')          
         }
             
-        function gogogo() {
+        function setup_sprite_ui() {
 
             d3.select('body').append('img')
                 .attr('id','colours')
@@ -99,11 +94,11 @@
             d3.select('body').append('input')
                 .attr('id','new_sprite_button')
                 .attr('type','button')
-                .on('click',add_new_sprite())
-
+                .on('click',add_new_sprite)
         
-            d3.select('body').append('br')
+        }
 
+        function setup_map_ui() {
             d3.select('body').append('img')
                 .attr('id','tiles')
                 .attr('src','tiles.png')
@@ -129,46 +124,36 @@
                 //.style('top',`${offset_y-2}px`)
                 //.style('posleftition',`${offset_x-2}`)
 
-            //<img id="tiles" src="tiles.png" width="80" height="16" style="border:solid; border-width:1px"></img>
-            //<canvas id="current_tile" width="32" height="32" style="border:solid; border-width:1px"></canvas>
-            //<div id="map_edge" style="border:solid; border-width: 1px;"></div>
+            }
 
-            
-            
+        function setup_map_ui_action() {
+   
+            //set up ui actions
             d3.select('#tiles').on('mouseup', function() {
-                console.log(tile_index)
+                //console.log(tile_index)
                 tile_index++
                 if (tile_index==max_tiles) tile_index=0
                 var ctx = document.getElementById('current_tile').getContext('2d')
                 ctx.drawImage(tiles, tile_index*8, 0, 8, 8,
                     0, 0, 32, 32)
             })
+        }
+
+        function setup_sprite_ui_action() {       
 
             d3.select('#colours').on('mouseup', function() {
-                console.log(colour_index)
+                //console.log(colour_index)
                 colour_index++
                 if (colour_index==max_colours) colour_index=0
                 var ctx = document.getElementById('current_colour').getContext('2d')
                 ctx.drawImage(colours, colour_index*8, 0, 8, 8,
                     0, 0, 32, 32)
-            })
-        
-
-            //var canvas = document.getElementById("myCanvas");
-            //var ctx = canvas.getContext("2d");
-            sprite_list_canvas = document.getElementById("tiles");
-            colour_list_canvas = document.getElementById("colours");
-            
-
-            map_offset_x = map_edge_selection.node().offsetLeft + 1
-            map_offset_y = map_edge_selection.node().offsetTop + 1
-            
-            sprite_offset_x = sprite_edge_selection.node().offsetLeft + 1
-            sprite_offset_x = sprite_edge_selection.node().offsetTop + 1
+            })      
 
 
+        }
 
-
+        function initialize_map() {            
             //initialize map
 
             for (var x=0;x<W;x++) {
@@ -176,9 +161,41 @@
                     current_map.push({"x":x,"y":y, "value":0})
                 }
             }
+        }
 
+        function gogogo() {
+
+
+            add_new_sprite()
+            current_sprite_index = current_sprites.length-1
+
+            setup_sprite_ui()    
+            d3.select('body').append('br')
+            setup_map_ui()
+         
+            setup_map_ui_action()
+            setup_sprite_ui_action()
+
+            //get elements for projecting colours and tile graphics to
+
+            sprite_list_canvas = document.getElementById("tiles");
+            colour_list_canvas = document.getElementById("colours");
+            
+
+            //get offsets for laying the canvas for tiles
+
+            map_offset_x = map_edge_selection.node().offsetLeft + 1
+            map_offset_y = map_edge_selection.node().offsetTop + 1
+            
+            sprite_offset_x = sprite_edge_selection.node().offsetLeft + 1
+            sprite_offset_y = sprite_edge_selection.node().offsetTop + 1
+
+            initialize_map()
+
+            //create map cells
 
             cs = d3.select('body').selectAll('.cell').data(current_map).enter()
+
             cs
                 .append('canvas')
                 .attr('class','cell')
@@ -204,6 +221,8 @@
                 })
 
 
+            //create sprite colour cells
+
             ss = d3.select('body').selectAll('.spr_cell').data(sprite).enter()
                 .append('canvas')
                 .attr('class','spr_cell')
@@ -228,6 +247,4 @@
                 })
                 
     
-
-        
-        }
+            }
