@@ -150,6 +150,19 @@ function setup_map_ui() {
             cell.value=current_tile_index
             update_map_canvas()            
         })
+        .on('mousemove', function() {
+            if (d3.event.buttons==1) {
+                console.log('mouse down',d3.event,d3.event.offsetX,d3.event.offsetY)
+                mx=d3.event.offsetX
+                my=d3.event.offsetY
+                cx=Math.abs(Math.floor(mx/CHO))
+                cy=Math.abs(Math.floor(my/CHO))
+                cell = current_map.filter(function(m,i) { if (m.x==cx & m.y==cy) return m })[0]          
+                console.log(cx,cy,cell)
+                cell.value=current_tile_index
+                update_map_canvas()       
+            }     
+        })
 
 }
 
