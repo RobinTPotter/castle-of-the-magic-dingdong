@@ -18,8 +18,8 @@
 
 */
 
-#define mapWidth 40
-#define mapHeight 40
+#define mapWidth 120
+#define mapHeight 120
 #define mapBank 0
 
 unsigned char map_data[] =

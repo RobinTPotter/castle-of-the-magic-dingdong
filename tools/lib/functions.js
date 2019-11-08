@@ -26,6 +26,8 @@ var max_colours = 4
 var  current_map = []
 var  current_sprites = []
 
+var tiles_source
+
 var current_sprite_index
 
 var map_edge_selection
@@ -47,7 +49,8 @@ function add_new_sprite() {
     console.log("added new",current_sprites)
     current_sprite_index = current_sprites.length-1
     sprite = current_sprites[current_sprite_index]
-    
+    if (tiles_source) update_tiles_source()
+    update_sprite_canvas()
 }
 
 //function update_map(element, object) {
@@ -61,29 +64,39 @@ function add_new_sprite() {
 //    ctx.drawImage(colour_list_canvas, colour_index*8,0,8,8,0, 0,8,8);
 //}
 
-function update_sprite_canvases() {
-    ss.each(function(d,i) {
-        var ctx=this.getContext("2d")
-        ctx.drawImage(colour_list_canvas,d.value*8,0,8,8,0,0,8,8)
-    })         
-}
     
 function setup_sprite_ui() {
 
     d3.select('body').append('img')
         .attr('id','colours')
         .attr('src','colours.png')
-        .attr('width','64')
-        .attr('height','16')
-        .style('border','solid')
-        .style('border-width','1px')
-
-    d3.select('body').append('canvas')
-        .attr('id','current_colour')
-        .attr('width','32')
+        .attr('width','128')
         .attr('height','32')
         .style('border','solid')
         .style('border-width','1px')
+
+        d3.select('body').append('canvas')
+        .attr('id','current_colour')
+        .attr('width','32')
+        .attr('height','32')
+        .style('border','dotted')
+        .style('border-width','2px')
+
+        d3.select('body').append('canvas')
+        .attr('id','temp_canvas')
+        .attr('width','8')
+        .attr('height','8')
+        .style('border','solid')
+        .style('border-width','2px')
+        .style('visibility','hidden')
+
+        d3.select('body').append('canvas')
+        .attr('id','temp_canvas_sprite')
+        .attr('width','8')
+        .attr('height','8')
+        .style('border','dotted')
+        .style('border-width','1px')
+        .style('visibility','hidden')
 
     sprite_edge_selection = d3.select('body').append('div')
         .attr('id','sprite_edge')
@@ -102,18 +115,46 @@ function setup_sprite_ui() {
 
     current_sprite_canvas = d3.select('body').append('canvas')
         .attr('id','current_sprite_canvas')
-        .style('width',`${SW * SCHO}px`)
-        .style('height',`${SH * SCHO}px`)
+        .attr('width',`${SW * SCHO}`)
+        .attr('height',`${SH * SCHO}`)
         .style('position','absolute')
+        .on('mousedown', function() {
+            console.log('mouse down',d3.event,d3.event.offsetX,d3.event.offsetY)
+            mx=d3.event.offsetX
+            my=d3.event.offsetY
+            cx=Math.abs(Math.floor(mx/SCHO))
+            cy=Math.abs(Math.floor(my/SCHO))
+            cell = current_sprites[current_sprite_index].filter(function(m,i) { if (m.x==cx & m.y==cy) return m })[0]          
+            console.log(cx,cy,cell)
+            cell.value=colour_index
+            update_sprite_canvas()            
+        })
+        .on('mousemove', function() {
+            if (d3.event.buttons==1) {
+                //console.log('mouse down',d3.event,d3.event.offsetX,d3.event.offsetY)
+                mx=d3.event.offsetX
+                my=d3.event.offsetY
+                cx=Math.abs(Math.floor(mx/SCHO))
+                cy=Math.abs(Math.floor(my/SCHO))
+                cell = current_sprites[current_sprite_index].filter(function(m,i) { if (m.x==cx & m.y==cy) return m })[0]          
+                //console.log(cx,cy,cell)
+                cell.value=colour_index
+                update_sprite_canvas()       
+            }     
+        })
+        .on('mouseup',function() {
+            update_map_canvas()
+        })
 
 }
 
+
 function setup_map_ui() {
-    d3.select('body').append('img')
+    tiles_source = d3.select('body').append('img')
         .attr('id','tiles')
         .attr('src','tiles.png')
-        .attr('width','80')
-        .attr('height','16')
+        .attr('width','160')
+        .attr('height','32')
         .style('border','solid')
         .style('border-width','1px')
 
@@ -121,8 +162,8 @@ function setup_map_ui() {
         .attr('id','current_tile')
         .attr('width','32')
         .attr('height','32')
-        .style('border','solid')
-        .style('border-width','1px')
+        .style('border','dotted')
+        .style('border-width','2px')
 
     map_edge_selection = d3.select('body').append('div')
         .attr('id','map_edge')
@@ -136,9 +177,9 @@ function setup_map_ui() {
 
     current_map_canvas = d3.select('body').append('canvas')
         .attr('id','current_map_canvas')
-        .style('width',`${W * CHO}px`)
-        .style('height',`${H * CHO}px`)
         .style('position','absolute')
+        .attr('width',`${W * CHO}`)
+        .attr('height',`${H * CHO}`)
         .on('mousedown', function() {
             console.log('mouse down',d3.event,d3.event.offsetX,d3.event.offsetY)
             mx=d3.event.offsetX
@@ -152,13 +193,13 @@ function setup_map_ui() {
         })
         .on('mousemove', function() {
             if (d3.event.buttons==1) {
-                console.log('mouse down',d3.event,d3.event.offsetX,d3.event.offsetY)
+                //console.log('mouse down',d3.event,d3.event.offsetX,d3.event.offsetY)
                 mx=d3.event.offsetX
                 my=d3.event.offsetY
                 cx=Math.abs(Math.floor(mx/CHO))
                 cy=Math.abs(Math.floor(my/CHO))
                 cell = current_map.filter(function(m,i) { if (m.x==cx & m.y==cy) return m })[0]          
-                console.log(cx,cy,cell)
+                //console.log(cx,cy,cell)
                 cell.value=current_tile_index
                 update_map_canvas()       
             }     
@@ -167,14 +208,61 @@ function setup_map_ui() {
 }
 
 function update_map_canvas() {
+    var ctx = current_map_canvas.node().getContext("2d")
     current_map.forEach(function(cell) {
-        console.log(cell)
+        //console.log(cell)
         //    var ctx = element.node().getContext("2d")
         //    ctx.drawImage(colour_list_canvas, colour_index*8,0,8,8,0, 0,8,8);
-        var ctx = current_map_canvas.node().getContext("2d")
-        ctx.drawImage(sprite_list_canvas, cell.value * 8, 0, 8, 8, cell.x*CHO, cell.y*CHO,8,8);
-
+        //console.log(cell, cell.value * 8, 0, 8, 8, cell.x*CHO, cell.y*CHO,8,8)
+        ctx.drawImage(sprite_list_canvas, cell.value * 8, 0, 8, 8, cell.x * SCHO, cell.y * SCHO,8 , 8);
     })
+    
+}
+
+function update_sprite_canvas(s) {
+    if (!current_sprite_canvas) return
+    if (!s) { 
+        s = current_sprite_index
+    }
+    var ctx = current_sprite_canvas.node().getContext("2d")
+    current_sprites[s].forEach(function(cell) {
+        //console.log(cell)
+        //    var ctx = element.node().getContext("2d")
+        //    ctx.drawImage(colour_list_canvas, colour_index*8,0,8,8,0, 0,8,8);
+        //console.log(cell, cell.value * 8, 0, 8, 8, cell.x*CHO, cell.y*CHO,8,8)
+        ctx.drawImage(colour_list_canvas, cell.value * 8, 0, 8, 8, cell.x * CHO, cell.y * CHO,8 , 8);
+        
+    })
+    update_tiles_source()
+    //update_map_canvas()
+}
+function get_sprite_data(current_sprite_index) {
+  
+    var temp_canvas_sprite = document.getElementById('temp_canvas_sprite');
+    var ctx = temp_canvas_sprite.getContext("2d")
+
+    current_sprites[current_sprite_index].forEach(function(cell) {
+        //console.log(cell)
+        //    var ctx = element.node().getContext("2d")
+        //    ctx.drawImage(colour_list_canvas, colour_index*8,0,8,8,0, 0,8,8);
+        //console.log(cell, cell.value * 8, 0, 8, 8, cell.x*CHO, cell.y*CHO,8,8)
+        ctx.drawImage(colour_list_canvas, cell.value * 8, 0, 8, 8, cell.x , cell.y ,1 , 1);
+        
+    })
+    return temp_canvas_sprite
+}
+
+function update_tiles_source() {
+    //is an image
+    tiles_source.attr('width',32*current_sprites.length)
+    var temp_canvas = document.getElementById('temp_canvas');
+    temp_canvas.width = 8*current_sprites.length
+    var ctx = temp_canvas.getContext("2d")
+    for (var cs=0;cs<current_sprites.length;cs++) {
+
+        ctx.drawImage(get_sprite_data(cs),0,0,8,8,cs*8,0,8,8)
+    }
+    tiles_source.node().src = temp_canvas.toDataURL()
 
 
 }
@@ -184,24 +272,39 @@ function setup_map_ui_action() {
     //set up ui actions
     d3.select('#tiles').on('mouseup', function() {
         //console.log(current_tile_index)
-        current_tile_index++
-        if (current_tile_index==max_tiles) current_tile_index=0
+        //current_tile_index++
+        //if (current_tile_index==max_tiles) current_tile_index=0
+        mx=d3.event.offsetX
+        my=d3.event.offsetY
+        cx=Math.abs(Math.floor(mx/32))
+        cy=Math.abs(Math.floor(my/32))
+        console.log(cx,cy)
+        current_tile_index = cx
         var ctx = document.getElementById('current_tile').getContext('2d')
         ctx.drawImage(tiles, current_tile_index*8, 0, 8, 8,
             0, 0, 32, 32)
+        current_sprite_index = current_tile_index
+        update_sprite_canvas()
     })
 }
 
 function setup_sprite_ui_action() {       
 
-    d3.select('#colours').on('mouseup', function() {
-        //console.log(colour_index)
-        colour_index++
-        if (colour_index==max_colours) colour_index=0
-        var ctx = document.getElementById('current_colour').getContext('2d')
-        ctx.drawImage(colours, colour_index*8, 0, 8, 8,
-            0, 0, 32, 32)
-    })      
+    d3.select('#colours')
+        .on('mouseup', function() {
+            //console.log(colour_index)
+            //colour_index++     
+            //if (colour_index==max_colours) colour_index=0
+            mx=d3.event.offsetX
+            my=d3.event.offsetY
+            cx=Math.abs(Math.floor(mx/32))
+            cy=Math.abs(Math.floor(my/32))
+            console.log(cx,cy)
+            colour_index = cx
+            var ctx = document.getElementById('current_colour').getContext('2d')
+            ctx.drawImage(colours, colour_index*8, 0, 8, 8,
+                0, 0, 32, 32)
+        })      
 
 
 }
@@ -255,5 +358,7 @@ function gogogo() {
 
     //create sprite colour cells
     sprite = current_sprites[current_sprite_index]
+    add_new_sprite()
+    update_tiles_source()
 
 }

@@ -7,117 +7,32 @@ for y in range(120):
 import PIL
 PIL.PILLOW_VERSION
 from PIL import Image
-from PIL import ImageIO
-help(PIL)
-help(Image)
-im = Image.open("map_cotmdd.png")
-im
-im.tostring()
-im.tobytes()
-im.tobytes()[0]
-len(im.tobytes())
-len(im.tobytes()[0])
-len(im.tobytes()[0:1])
-len(im.tobytes()[0:2])
-im.tobytes()[0:2]
-[x for x in im.tobytes()]
-[1 if x==255 else 0 for x in im.tobytes()]
-[0 if x==255 else 1 for x in im.tobytes()]
-str([0 if x==255 else 1 for x in im.tobytes()])
-[0 if x==255 else 1 for x in im.tobytes()]
-map = [0 if x==255 else 1 for x in im.tobytes()]
-for s in range(0,120): print (map[120*s:120*s+120])
-for s in range(0,120): print (str(map[120*s:120*s+120]))
-#
-for s in range(0,120): print (str(map[120*s:120*s+120]).replace(',','\x09'))
-map
-im
-help(im)
-im.getdata(
 
-im.getdata()
-help(im.getdata())
-im.getpixel(0,0)
-im.getpixel((0,0))
-im.getpixel((1,1))
-im.getpixel((1,2))
-im.getpixel((3,2))
-im.show()7
-im.show()
-im.getdata
-im.getpixel((0,0))
-for x in range(0,120): for y in range(0,120): im.getpixel((x,y))
-for x in range(0,120):for y in range(0,120): im.getpixel((x,y))
-for x in range(0,120):
-	for y in range(0,120): im.getpixel((x,y))
-for x in range(0,120):
-	for y in range(0,120): 0 if im.getpixel((x,y))==(255,255,255) else 1
-for x in range(0,120):
-	for y in range(0,120): sys.stdout.write(0 if im.getpixel((y,x))==(255,255,255) else 1)
-    print()
-for x in range(0,120):
-	for y in range(0,120): sys.stdout.write(0 if im.getpixel((y,x))==(255,255,255) else 1)
-	print()
-import sys
-for x in range(0,120):
-	for y in range(0,120): sys.stdout.write(0 if im.getpixel((y,x))==(255,255,255) else 1)
-	print()
-for x in range(0,120):
-	for y in range(0,120): sys.stdout.write("0" if im.getpixel((y,x))==(255,255,255) else "1")
-	print()
-	for y in range(0,120): sys.stdout.write("0" if im.getpixel((y,x))==(255,255,255) else "1")
-[0 if x==255 else 1 for x in im.tobytes()]
-for s in range(0,120): print (str(map[120*s:120*s+120]).replace(',',''))
-for s in range(0,120): print (str(map[120*s:120*s+120]).replace(',','').replace(' ',''))
-for s in range(0,119): print (str(map[120*s:120*s+120]).replace(',','').replace(' ',''))
-for s in range(0,119): print (str(map[120*s:120*s+190]).replace(',','').replace(' ',''))
-for s in range(0,119): print (str(map[120*s:120*s+119]).replace(',','').replace(' ',''))
-for s in range(0,119): print (str(map[120*s:120*s+120]).replace(',','').replace(' ',''))
-for s in range(0,140): print (str(map[140*s:140*s+140]).replace(',','').replace(' ',''))
-map
-his
-map = [0 if x==255 else 1 for x in im.tobytes()]
-len(map)
-120*120
-120*120*4
-120*120*5
-43200/120
-im
-im.getpixel((120,120))
-im.getpixel((120,119))
-im.getpixel((119,119))
-for y in range(120):
-	for x in range(120):
-		sys.write("1" if im.getpixel((x,y))==(255,255,255) else "0")
-for y in range(120):
-	for x in range(120):
-		sys.stdout.write("1" if im.getpixel((x,y))==(255,255,255) else "0")
-	sys.stdout("\n")
-ss.write("bollocks")
-sys.write("bollocks")
-sys.stdout.write("bollocks")
-sys.stdout.write("bollocks\n")
-help(sys.stdout)
-for y in range(120):
-	for x in range(120):
-		print("1" if im.getpixel((x,y))==(255,255,255) else "0",end='')
-	print()
-for y in range(120):
-	for x in range(120):
-		print("1\x09" if im.getpixel((y,x))==(255,255,255) else "0\x09",end='')
-	print()
-for y in range(120):
-	for x in range(120):
-		print("0\x09" if im.getpixel((y,x))==(255,255,255) else "1\x09",end='')
-	print()
-120*120
-120*120/4
+im = Image.open("map_cotmdd.png")
+
+im.getbbox()[2]/40
+im.getbbox()[3]/40
+
+panels = []
+
+for py in range(3):
+	for px in range(3):
+		panels.append(im.crop((px*40,py*40,(px+1)*40,(py+1)*40)))
+
+
+
+[1 if x==255 else 0 for x in im.tobytes()]
+
 for y in range(120):
 	for x in range(120):
 		print("0x00," if im.getpixel((y,x))==(255,255,255) else "0x01,",end='')
+
+
+
+
 for y in range(120):
-	for x in range(120):
-		print("0x00," if im.getpixel((y,x))==(255,255,255) else "0x01,",end='')
+	for p in range(3):
+		for x in range(p*40,p*40+40):
+			print("0x00," if im.getpixel((y,x))==(255,255,255) else "0x01,",end='')
+		print()
 	print()
-quit()
-jon@jon-K70AC:~/Documents/castle-of-the-magic-dingdong/res$ 
