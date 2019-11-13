@@ -1,0 +1,228 @@
+AREA .  .ABS.
+	RADIX HEX
+	BASE 0000
+	SIZE 0000
+	ATTRIB ABS OVR
+	GLOBALS
+		l__HEAP	0000
+		l__BSEG	0000
+		l_.  .ABS.	0000
+		l__GSFINAL	0000
+		l__ISEG	0000
+		s_.  .ABS.	0000
+		s__HEADER	0000
+		l__XSEG	0000
+		.init	0000
+		l__OVERLAY	0000
+		l__LIT	0000
+		l__GSINITTAIL	0001
+		l__BSS	0059
+		l__CODE	0063
+		l__BASE	0175
+		l__HOME	01D3
+		l__HEADER	01E1
+		s__CODE	0200
+		s__HOME	0263
+		l__GSINIT	0320
+		s__BASE	0436
+		s__LIT	05AB
+		s__GSINIT	05AB
+		l__DATA	06B0
+		s__GSINITTAIL	08CB
+		s__GSFINAL	08CC
+		.OAM	C000
+		s__DATA	C0A0
+		s__BSS	C750
+		s__HEAP	C7A9
+		s__BSEG	C7A9
+		s__ISEG	C7A9
+		s__XSEG	C7A9
+		s__OVERLAY	C7A9
+		.STACK	E000
+		.refresh_OAM	FF80
+AREA _CODE
+	RADIX HEX
+	BASE 0200
+	SIZE 0063
+	ATTRIB REL CON
+	GLOBALS
+		_main	0200
+AREA _HEADER
+	RADIX HEX
+	BASE 0000
+	SIZE 01E1
+	ATTRIB ABS OVR
+	GLOBALS
+		_exit	01D2
+AREA _HOME
+	RADIX HEX
+	BASE 0263
+	SIZE 01D3
+	ATTRIB REL CON
+	GLOBALS
+		.set_mode	0263
+		.remove_VBL	0273
+		.remove_LCD	0279
+		.remove_TIM	027F
+		.remove_SIO	0285
+		.remove_JOY	028B
+		.add_VBL	0291
+		.add_LCD	0297
+		.add_TIM	029D
+		.add_SIO	02A3
+		.add_JOY	02A9
+		.remove_int	02AF
+		.add_int	02CF
+		.wait_vbl_done	02EB
+		_wait_vbl_done	02EB
+		_display_off	0302
+		.display_off	0302
+		.serial_IO	0323
+		_mode	0352
+		_get_mode	035B
+		_enable_interrupts	0360
+		_disable_interrupts	0362
+		_reset	0364
+		.reset	0364
+		_set_interrupts	036A
+		_remove_VBL	0375
+		_remove_LCD	0380
+		_remove_TIM	038B
+		_remove_SIO	0396
+		_remove_JOY	03A1
+		_add_VBL	03AC
+		_add_LCD	03B7
+		_add_TIM	03C2
+		_add_SIO	03CD
+		_add_JOY	03D8
+		_clock	03E3
+		__printTStates	03EC
+		banked_call	03ED
+		banked_ret	0406
+		__initrleblock	040F
+AREA _BASE
+	RADIX HEX
+	BASE 0436
+	SIZE 0175
+	ATTRIB REL CON
+	GLOBALS
+		_scroll_bkg	0436
+		.delay	044C
+		_delay	0486
+		_set_win_data	048F
+		_set_bkg_data	048F
+		_set_sprite_data	04DC
+		.copy_vram	050B
+		_get_data	051A
+		_set_data	051A
+		_set_bkg_tiles	052D
+		.set_xy_wtt	0541
+		.set_xy_btt	0552
+		.set_xy_tt	0561
+		_set_tiles	0592
+AREA _LIT
+	RADIX HEX
+	BASE 05AB
+	SIZE 0000
+	ATTRIB REL CON
+AREA _GSINIT
+	RADIX HEX
+	BASE 05AB
+	SIZE 0320
+	ATTRIB REL CON
+	GLOBALS
+		gsinit	05AB
+AREA _GSINITTAIL
+	RADIX HEX
+	BASE 08CB
+	SIZE 0001
+	ATTRIB REL CON
+AREA _GSFINAL
+	RADIX HEX
+	BASE 08CC
+	SIZE 0000
+	ATTRIB REL CON
+AREA _DATA
+	RADIX HEX
+	BASE C0A0
+	SIZE 06B0
+	ATTRIB REL CON
+	GLOBALS
+		_map	C0A0
+		_sprites	C6E0
+AREA _BSS
+	RADIX HEX
+	BASE C750
+	SIZE 0059
+	ATTRIB REL CON
+	GLOBALS
+		__cpu	C750
+		.mode	C751
+		__io_out	C752
+		__io_in	C753
+		__io_status	C754
+		.vbl_done	C755
+		__current_bank	C756
+		_sys_time	C757
+		.sys_time	C757
+		.int_0x40	C759
+		.int_0x48	C769
+		.int_0x50	C779
+		.int_0x58	C789
+		.int_0x60	C799
+AREA _HEAP
+	RADIX HEX
+	BASE C7A9
+	SIZE 0000
+	ATTRIB REL CON
+	GLOBALS
+		_malloc_heap_start	C7A9
+AREA _OVERLAY
+	RADIX HEX
+	BASE C7A9
+	SIZE 0000
+	ATTRIB REL CON
+AREA _ISEG
+	RADIX HEX
+	BASE C7A9
+	SIZE 0000
+	ATTRIB REL CON
+AREA _BSEG
+	RADIX HEX
+	BASE C7A9
+	SIZE 0000
+	ATTRIB REL CON
+AREA _XSEG
+	RADIX HEX
+	BASE C7A9
+	SIZE 0000
+	ATTRIB REL CON
+MODULES
+	FILE /opt/gbdk/lib/small/asxxxx/gb/crt0.o
+		NAME Runtime
+	FILE main.o
+		NAME lcc67910
+LIBRARIES
+	LIBRARY /opt/gbdk/lib/small/asxxxx/gbz80/gbz80.lib
+		MODULE crt0_rle.o
+	LIBRARY /opt/gbdk/lib/small/asxxxx/gb/gb.lib
+		MODULE scroll_b.o
+	LIBRARY /opt/gbdk/lib/small/asxxxx/gb/gb.lib
+		MODULE delay.o
+	LIBRARY /opt/gbdk/lib/small/asxxxx/gb/gb.lib
+		MODULE set_data.o
+	LIBRARY /opt/gbdk/lib/small/asxxxx/gb/gb.lib
+		MODULE cpy_data.o
+	LIBRARY /opt/gbdk/lib/small/asxxxx/gb/gb.lib
+		MODULE set_bk_t.o
+	LIBRARY /opt/gbdk/lib/small/asxxxx/gb/gb.lib
+		MODULE set_xy_t.o
+USERBASEDEF
+	_CODE=0x0200
+	_DATA=0xC0A0
+	_CODE_1=0x4000
+USERGLOBALDEF
+	.OAM=0xC000
+	.STACK=0xE000
+	.refresh_OAM=0xFF80
+	.init=0x0000
