@@ -19,25 +19,25 @@ AREA .  .ABS.
 		l__BSS	0059
 		l__CODE	0063
 		l__BASE	0175
+		l__GSINIT	0193
 		l__HOME	01D3
 		l__HEADER	01E1
 		s__CODE	0200
 		s__HOME	0263
-		l__GSINIT	0320
 		s__BASE	0436
 		s__LIT	05AB
 		s__GSINIT	05AB
-		l__DATA	06B0
-		s__GSINITTAIL	08CB
-		s__GSFINAL	08CC
+		l__DATA	0670
+		s__GSINITTAIL	073E
+		s__GSFINAL	073F
 		.OAM	C000
 		s__DATA	C0A0
-		s__BSS	C750
-		s__HEAP	C7A9
-		s__BSEG	C7A9
-		s__ISEG	C7A9
-		s__XSEG	C7A9
-		s__OVERLAY	C7A9
+		s__BSS	C710
+		s__HEAP	C769
+		s__BSEG	C769
+		s__ISEG	C769
+		s__XSEG	C769
+		s__OVERLAY	C769
 		.STACK	E000
 		.refresh_OAM	FF80
 AREA _CODE
@@ -128,80 +128,80 @@ AREA _LIT
 AREA _GSINIT
 	RADIX HEX
 	BASE 05AB
-	SIZE 0320
+	SIZE 0193
 	ATTRIB REL CON
 	GLOBALS
 		gsinit	05AB
 AREA _GSINITTAIL
 	RADIX HEX
-	BASE 08CB
+	BASE 073E
 	SIZE 0001
 	ATTRIB REL CON
 AREA _GSFINAL
 	RADIX HEX
-	BASE 08CC
+	BASE 073F
 	SIZE 0000
 	ATTRIB REL CON
 AREA _DATA
 	RADIX HEX
 	BASE C0A0
-	SIZE 06B0
+	SIZE 0670
 	ATTRIB REL CON
 	GLOBALS
-		_map	C0A0
-		_sprites	C6E0
+		_MAP_NAME_	C0A0
+		_SPRITES_	C6E0
 AREA _BSS
 	RADIX HEX
-	BASE C750
+	BASE C710
 	SIZE 0059
 	ATTRIB REL CON
 	GLOBALS
-		__cpu	C750
-		.mode	C751
-		__io_out	C752
-		__io_in	C753
-		__io_status	C754
-		.vbl_done	C755
-		__current_bank	C756
-		_sys_time	C757
-		.sys_time	C757
-		.int_0x40	C759
-		.int_0x48	C769
-		.int_0x50	C779
-		.int_0x58	C789
-		.int_0x60	C799
+		__cpu	C710
+		.mode	C711
+		__io_out	C712
+		__io_in	C713
+		__io_status	C714
+		.vbl_done	C715
+		__current_bank	C716
+		_sys_time	C717
+		.sys_time	C717
+		.int_0x40	C719
+		.int_0x48	C729
+		.int_0x50	C739
+		.int_0x58	C749
+		.int_0x60	C759
 AREA _HEAP
 	RADIX HEX
-	BASE C7A9
+	BASE C769
 	SIZE 0000
 	ATTRIB REL CON
 	GLOBALS
-		_malloc_heap_start	C7A9
+		_malloc_heap_start	C769
 AREA _OVERLAY
 	RADIX HEX
-	BASE C7A9
+	BASE C769
 	SIZE 0000
 	ATTRIB REL CON
 AREA _ISEG
 	RADIX HEX
-	BASE C7A9
+	BASE C769
 	SIZE 0000
 	ATTRIB REL CON
 AREA _BSEG
 	RADIX HEX
-	BASE C7A9
+	BASE C769
 	SIZE 0000
 	ATTRIB REL CON
 AREA _XSEG
 	RADIX HEX
-	BASE C7A9
+	BASE C769
 	SIZE 0000
 	ATTRIB REL CON
 MODULES
 	FILE /opt/gbdk/lib/small/asxxxx/gb/crt0.o
 		NAME Runtime
 	FILE main.o
-		NAME lcc67910
+		NAME lcc243610
 LIBRARIES
 	LIBRARY /opt/gbdk/lib/small/asxxxx/gbz80/gbz80.lib
 		MODULE crt0_rle.o

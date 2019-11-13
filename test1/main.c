@@ -3,8 +3,8 @@
 #include "sprites.c"
 
 void main(){
-    set_bkg_data(0, 2, sprites);
-    set_bkg_tiles(0, 0, 40, 40, map);
+    set_bkg_data(0, 4, SPRITES_);
+    set_bkg_tiles(0, 0, 40, 40, MAP_NAME_);
 
     SHOW_BKG;
     DISPLAY_ON;
