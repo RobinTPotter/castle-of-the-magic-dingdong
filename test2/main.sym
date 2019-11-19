@@ -1,0 +1,136 @@
+; no$gmb format .sym file
+; Generated automagically by ASxxxx linker V01.75 (SDK 3.0.0)
+; Area: .  .ABS.
+00:0000 s__HEADER
+00:0000 .init
+00:0200 s__CODE
+00:0392 s__HOME
+00:0565 s__BASE
+00:06DA s__LIT
+00:06DA s__GSINIT
+00:0A0D s__GSINITTAIL
+00:0A0E s__GSFINAL
+00:C000 .OAM
+00:C0A0 s__DATA
+00:C5F1 s__BSS
+00:C64D s__HEAP
+00:C64D s__BSEG
+00:C64D s__ISEG
+00:C64D s__XSEG
+00:C64D s__OVERLAY
+00:E000 .STACK
+00:FF80 .refresh_OAM
+; Area: _CODE
+00:0200 _main
+00:0290 __divschar_rrx_s
+00:0297 __divschar_rrx_hds
+00:029E __modschar_rrx_s
+00:02A5 __modschar_rrx_hds
+00:02AA __divsint_rrx_s
+00:02B6 __divsint_rrx_hds
+00:02BE __modsint_rrx_s
+00:02CA __modsint_rrx_hds
+00:02D0 __divuchar_rrx_s
+00:02D7 __divuchar_rrx_hds
+00:02DE __moduchar_rrx_s
+00:02E5 __moduchar_rrx_hds
+00:02EA __divuint_rrx_s
+00:02F6 __divuint_rrx_hds
+00:02FE __moduint_rrx_s
+00:030A __moduint_rrx_hds
+00:0310 .mod8
+00:0310 .div8
+00:0318 .mod16
+00:0318 .div16
+00:0352 .modu8
+00:0352 .divu8
+00:0355 .modu16
+00:0355 .divu16
+; Area: _HEADER
+00:01D2 _exit
+; Area: _HOME
+00:0392 .set_mode
+00:03A2 .remove_VBL
+00:03A8 .remove_LCD
+00:03AE .remove_TIM
+00:03B4 .remove_SIO
+00:03BA .remove_JOY
+00:03C0 .add_VBL
+00:03C6 .add_LCD
+00:03CC .add_TIM
+00:03D2 .add_SIO
+00:03D8 .add_JOY
+00:03DE .remove_int
+00:03FE .add_int
+00:041A .wait_vbl_done
+00:041A _wait_vbl_done
+00:0431 _display_off
+00:0431 .display_off
+00:0452 .serial_IO
+00:0481 _mode
+00:048A _get_mode
+00:048F _enable_interrupts
+00:0491 _disable_interrupts
+00:0493 _reset
+00:0493 .reset
+00:0499 _set_interrupts
+00:04A4 _remove_VBL
+00:04AF _remove_LCD
+00:04BA _remove_TIM
+00:04C5 _remove_SIO
+00:04D0 _remove_JOY
+00:04DB _add_VBL
+00:04E6 _add_LCD
+00:04F1 _add_TIM
+00:04FC _add_SIO
+00:0507 _add_JOY
+00:0512 _clock
+00:051B __printTStates
+00:051C banked_call
+00:0535 banked_ret
+00:053E __initrleblock
+; Area: _BASE
+00:0565 _scroll_bkg
+00:057B .delay
+00:05B5 _delay
+00:05BE _set_win_data
+00:05BE _set_bkg_data
+00:060B _set_sprite_data
+00:063A .copy_vram
+00:0649 _get_data
+00:0649 _set_data
+00:065C _set_bkg_tiles
+00:0670 .set_xy_wtt
+00:0681 .set_xy_btt
+00:0690 .set_xy_tt
+00:06C1 _set_tiles
+; Area: _LIT
+; Area: _GSINIT
+00:06DA gsinit
+; Area: _GSINITTAIL
+; Area: _GSFINAL
+; Area: _DATA
+00:C0A0 _spr
+00:C1F0 _map
+00:C5F0 _tick
+; Area: _BSS
+00:C5F1 __cpu
+00:C5F2 .mode
+00:C5F3 __io_out
+00:C5F4 __io_in
+00:C5F5 __io_status
+00:C5F6 .vbl_done
+00:C5F7 __current_bank
+00:C5F8 _sys_time
+00:C5F8 .sys_time
+00:C5FA .int_0x40
+00:C60A .int_0x48
+00:C61A .int_0x50
+00:C62A .int_0x58
+00:C63A .int_0x60
+; Area: _HEAP
+00:C64D _malloc_heap_start
+; Area: _OVERLAY
+; Area: _ISEG
+; Area: _BSEG
+; Area: _XSEG
